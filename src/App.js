@@ -4,6 +4,7 @@ import './App.css'
 import ReadingState from './ReadingState'
 
 
+
 class BooksApp extends React.Component {
   state = {
     /**
@@ -21,7 +22,16 @@ class BooksApp extends React.Component {
       this.setState({ books })
     })
   }
-
+  onclickHandler =(Bookid,readingState)=>
+  {
+    BooksAPI.update(Bookid,readingState).then(() => {
+       const Updatedbook=this.state.books.filter(b => b.id === Bookid)[0]
+       Updatedbook.shelf=readingState
+       this.setState(state => ({
+       books: state.books.filter(b => b.id !== Bookid).concat(Updatedbook)
+      }))
+  })
+  }
   render() {
     return (
       <div className="app">
@@ -53,7 +63,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-               <ReadingState books={this.state.books} />
+               <ReadingState books={this.state.books} onclickHandler={this.onclickHandler}/>
               
               </div>
             </div>
