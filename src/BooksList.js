@@ -15,13 +15,16 @@ class BooksList extends Component {
         return(
             <div className="bookshelf-books">
             <ol className="books-grid">
-              {this.props.books.map( book=>{ return (
+              {this.props.books.map( book=>{ 
+                if(!book.shelf)
+                book.shelf="none"
+                  return (
                   <li key={book.id}>
                 <div className="book">
                   <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks? book.imageLinks.thumbnail :''})` }}></div>
                     <div className="book-shelf-changer">
-                      <select value={book.shelf} onChange={(e)=>this.UpdateReaingState(book.id,e.target.value)}>
+                      <select value={book.shelf} onChange={(e)=>this.UpdateReaingState(book,e.target.value)}>
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
